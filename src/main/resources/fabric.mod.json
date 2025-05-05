@@ -16,7 +16,7 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"dev.railcraft.Railcraft"
+			"dev.railcraft.RailCraft"
 		],
 		"fabric-datagen": [
 			"dev.railcraft.RailcraftDataGenerator"
