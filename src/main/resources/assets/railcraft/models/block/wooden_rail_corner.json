@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/rail_flat",
+  "parent": "minecraft:block/rail_curved",
   "textures": {
     "rail": "railcraft:block/wooden_rail_corner"
   }

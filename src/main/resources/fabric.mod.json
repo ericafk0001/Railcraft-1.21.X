@@ -19,7 +19,7 @@
 			"dev.railcraft.RailCraft"
 		],
 		"fabric-datagen": [
-			"dev.railcraft.RailcraftDataGenerator"
+			"dev.railcraft.RailCraftDataGenerator"
 		],
 		"client": [
 			"dev.railcraft.RailCraftClient"
