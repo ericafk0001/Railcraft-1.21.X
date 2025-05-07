@@ -18,8 +18,8 @@ public class WoodenRailBlock extends RailBlock {
         super.onEntityCollision(state, world, pos, entity);
         if (entity instanceof AbstractMinecartEntity minecart) {
             Vec3d velocity = minecart.getVelocity();
-            double friction = 0.75;
-            minecart.setVelocity(velocity.multiply(friction));
+            double speed = 0.99;
+            minecart.setVelocity(velocity.multiply(speed));
         }
     }
 }
