@@ -1,7 +1,7 @@
 package dev.railcraft.block.custom;
 
-import net.minecraft.block.RailBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.RailBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.util.math.BlockPos;
