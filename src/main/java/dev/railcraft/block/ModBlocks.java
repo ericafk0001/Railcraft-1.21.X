@@ -49,11 +49,11 @@ public class ModBlocks {
     }
 
     private static RegistryKey<Block> keyOfBlock(String name) {
-        return RegistryKey.of(RegistryKeys.BLOCK, Identifier.of("railcraft", name));
+        return RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(RailCraft.MOD_ID, name));
     }
 
     private static RegistryKey<Item> keyOfItem(String name) {
-        return RegistryKey.of(RegistryKeys.ITEM, Identifier.of("railcraft", name));
+        return RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RailCraft.MOD_ID, name));
     }
 
     public static void initialize() {
