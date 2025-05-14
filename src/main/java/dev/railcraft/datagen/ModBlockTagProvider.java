@@ -18,7 +18,11 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
         getOrCreateTagBuilder(BlockTags.AXE_MINEABLE)
                 .add(ModBlocks.WOODEN_RAIL);
 
+        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+                .add(ModBlocks.LUBRICATED_RAIL);
+
         getOrCreateTagBuilder(BlockTags.RAILS)
-                .add(ModBlocks.WOODEN_RAIL);
+                .add(ModBlocks.WOODEN_RAIL)
+                .add(ModBlocks.LUBRICATED_RAIL);
     }
 }

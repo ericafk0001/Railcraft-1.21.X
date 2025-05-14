@@ -9,5 +9,6 @@ public class RailCraftClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.WOODEN_RAIL, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.LUBRICATED_RAIL, RenderLayer.getCutout());
     }
 }

@@ -1,5 +1,6 @@
 {
   "item.railcraft.lebron_photo": "Photo of Lebron",
+  "itemGroup.railcraft": "Railcraft",
   "block.railcraft.wooden_rail": "Wooden Rail",
-  "itemGroup.railcraft": "railcraft"
+  "block.railcraft.lubricated_rail": "Lubricated Rail"
 }

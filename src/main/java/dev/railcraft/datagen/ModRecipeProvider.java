@@ -22,7 +22,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         return new RecipeGenerator(registryLookup, exporter) {
             @Override
             public void generate() {
-                createShaped(RecipeCategory.TRANSPORTATION, ModBlocks.WOODEN_RAIL, 16)
+                createShaped(RecipeCategory.TRANSPORTATION, ModBlocks.WOODEN_RAIL, 8)
                         .pattern("# #")
                         .pattern("#/#")
                         .pattern("# #")
@@ -30,18 +30,19 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .input('/', Items.STICK)
                         .group("wooden_rail")
                         .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
-                        .criterion(hasItem(Items.ACACIA_PLANKS), conditionsFromItem(Items.ACACIA_PLANKS))
-                        .criterion(hasItem(Items.BIRCH_PLANKS), conditionsFromItem(Items.BIRCH_PLANKS))
-                        .criterion(hasItem(Items.DARK_OAK_PLANKS), conditionsFromItem(Items.DARK_OAK_PLANKS))
-                        .criterion(hasItem(Items.JUNGLE_PLANKS), conditionsFromItem(Items.JUNGLE_PLANKS))
-                        .criterion(hasItem(Items.OAK_PLANKS), conditionsFromItem(Items.OAK_PLANKS))
-                        .criterion(hasItem(Items.SPRUCE_PLANKS), conditionsFromItem(Items.SPRUCE_PLANKS))
-                        .criterion(hasItem(Items.CRIMSON_PLANKS), conditionsFromItem(Items.CRIMSON_PLANKS))
-                        .criterion(hasItem(Items.WARPED_PLANKS), conditionsFromItem(Items.WARPED_PLANKS))
-                        .criterion(hasItem(Items.BAMBOO_PLANKS), conditionsFromItem(Items.BAMBOO_PLANKS))
-                        .criterion(hasItem(Items.MANGROVE_PLANKS), conditionsFromItem(Items.MANGROVE_PLANKS))
-                        .criterion(hasItem(Items.CHERRY_PLANKS), conditionsFromItem(Items.CHERRY_PLANKS))
-                        .criterion(hasItem(Items.PALE_OAK_PLANKS), conditionsFromItem(Items.PALE_OAK_PLANKS))
+                        .criterion("has_planks", conditionsFromTag(ItemTags.PLANKS))
+                        .offerTo(exporter);
+
+                createShaped(RecipeCategory.TRANSPORTATION, ModBlocks.LUBRICATED_RAIL, 16)
+                        .pattern("#@#")
+                        .pattern("#/#")
+                        .pattern("# #")
+                        .input('#', Items.IRON_INGOT)
+                        .input('/', Items.STICK)
+                        .input('@', Items.HONEYCOMB)
+                        .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                        .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                        .criterion(hasItem(Items.HONEYCOMB), conditionsFromItem(Items.HONEYCOMB))
                         .offerTo(exporter);
             }
         };

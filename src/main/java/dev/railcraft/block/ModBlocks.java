@@ -1,6 +1,7 @@
 package dev.railcraft.block;
 
 import dev.railcraft.RailCraft;
+import dev.railcraft.block.custom.LubricatedRailBlock;
 import dev.railcraft.block.custom.WoodenRailBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -25,6 +26,16 @@ public class ModBlocks {
                     .noCollision()
                     .sounds(BlockSoundGroup.WOOD),
             true
+    );
+
+    public static final Block LUBRICATED_RAIL = registerBlock("lubricated_rail",
+            LubricatedRailBlock::new,
+            AbstractBlock.Settings.create()
+                    .strength(0.8f)
+                    .requiresTool()
+                    .nonOpaque()
+                    .noCollision(),
+                    true
     );
 
 
