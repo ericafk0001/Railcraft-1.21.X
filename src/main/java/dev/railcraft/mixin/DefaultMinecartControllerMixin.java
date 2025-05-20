@@ -24,7 +24,7 @@ public abstract class DefaultMinecartControllerMixin extends MinecartController 
     }
 
     @Unique
-    private static final double LUBRICATED_SPEED_MULTIPLIER = 1.5;
+    private static final double LUBRICATED_SPEED_MULTIPLIER = 1.135;
 
 
     @Unique
@@ -55,7 +55,7 @@ public abstract class DefaultMinecartControllerMixin extends MinecartController 
     private void getSpeedRetention(CallbackInfoReturnable<Double> cir) {
         if (isOnLubricatedRail()) {
             // Equal to the speed retention of a rail with passenger (the close to 1, the longer the minecart stays in motion)
-            cir.setReturnValue(0.997);
+            cir.setReturnValue(0.9971);
         }
     }
 
@@ -66,7 +66,7 @@ public abstract class DefaultMinecartControllerMixin extends MinecartController 
     )
     private void getMaxSpeed(ServerWorld world, CallbackInfoReturnable<Double> cir) {
         if (isOnLubricatedRail()) {
-            // Increase max speed by 50% on lubricated rails (larger the number, faster the minecart goes)
+            // Increase max speed by set % on lubricated rails (larger the number, faster the minecart goes)
             double baseSpeed = cir.getReturnValue();
             cir.setReturnValue(baseSpeed * LUBRICATED_SPEED_MULTIPLIER);
         }
