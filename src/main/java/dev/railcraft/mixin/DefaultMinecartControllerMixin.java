@@ -24,7 +24,7 @@ public abstract class DefaultMinecartControllerMixin extends MinecartController 
     }
 
     @Unique
-    private static final double LUBRICATED_SPEED_MULTIPLIER = 1.135;
+    private static final double LUBRICATED_SPEED_MULTIPLIER = 1.4;
 
 
     @Unique
