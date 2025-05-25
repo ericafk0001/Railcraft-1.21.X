@@ -17,6 +17,8 @@ public class ModModelProvider extends FabricModelProvider {
     public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
         blockStateModelGenerator.registerTurnableRail(ModBlocks.WOODEN_RAIL);
         blockStateModelGenerator.registerStraightRail(ModBlocks.LUBRICATED_RAIL);
+        blockStateModelGenerator.registerStraightRail(ModBlocks.ICE_RAIL);
+        blockStateModelGenerator.registerStraightRail(ModBlocks.POWERED_ICE_RAIL);
     }
 
     @Override

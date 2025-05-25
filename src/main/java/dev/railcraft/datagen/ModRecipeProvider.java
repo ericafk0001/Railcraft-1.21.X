@@ -44,6 +44,28 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                         .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
                         .criterion(hasItem(Items.HONEYCOMB), conditionsFromItem(Items.HONEYCOMB))
                         .offerTo(exporter);
+
+                createShaped(RecipeCategory.TRANSPORTATION, ModBlocks.ICE_RAIL, 16)
+                        .pattern("# #")
+                        .pattern("#@#")
+                        .pattern("# #")
+                        .input('#', Items.ICE)
+                        .input('@', Items.IRON_INGOT)
+                        .criterion(hasItem(Items.ICE), conditionsFromItem(Items.ICE))
+                        .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                        .offerTo(exporter);
+
+                createShaped(RecipeCategory.TRANSPORTATION, ModBlocks.POWERED_ICE_RAIL, 16)
+                        .pattern("#&#")
+                        .pattern("#@#")
+                        .pattern("#&#")
+                        .input('#', Items.ICE)
+                        .input('@', Items.IRON_INGOT)
+                        .input('&', Items.REDSTONE)
+                        .criterion(hasItem(Items.ICE), conditionsFromItem(Items.ICE))
+                        .criterion(hasItem(Items.IRON_INGOT), conditionsFromItem(Items.IRON_INGOT))
+                        .criterion(hasItem(Items.REDSTONE), conditionsFromItem(Items.REDSTONE))
+                        .offerTo(exporter);
             }
         };
     }

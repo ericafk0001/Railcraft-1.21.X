@@ -16,5 +16,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         addDrop(ModBlocks.WOODEN_RAIL);
         addDrop(ModBlocks.LUBRICATED_RAIL);
+        addDrop(ModBlocks.ICE_RAIL);
+        addDrop(ModBlocks.POWERED_ICE_RAIL);
     }
 }

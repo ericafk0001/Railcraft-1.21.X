@@ -19,10 +19,14 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.WOODEN_RAIL);
 
         getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
-                .add(ModBlocks.LUBRICATED_RAIL);
+                .add(ModBlocks.LUBRICATED_RAIL)
+                .add(ModBlocks.ICE_RAIL)
+                .add(ModBlocks.POWERED_ICE_RAIL);
 
         getOrCreateTagBuilder(BlockTags.RAILS)
                 .add(ModBlocks.WOODEN_RAIL)
-                .add(ModBlocks.LUBRICATED_RAIL);
+                .add(ModBlocks.LUBRICATED_RAIL)
+                .add(ModBlocks.ICE_RAIL)
+                .add(ModBlocks.POWERED_ICE_RAIL);
     }
 }

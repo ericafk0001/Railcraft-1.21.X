@@ -1,7 +1,9 @@
 package dev.railcraft.block;
 
 import dev.railcraft.RailCraft;
+import dev.railcraft.block.custom.IceRailBlock;
 import dev.railcraft.block.custom.LubricatedRailBlock;
+import dev.railcraft.block.custom.PoweredIceRailBlock;
 import dev.railcraft.block.custom.WoodenRailBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -36,6 +38,28 @@ public class ModBlocks {
                     .nonOpaque()
                     .noCollision(),
                     true
+    );
+
+    public static final Block ICE_RAIL = registerBlock("ice_rail",
+            IceRailBlock::new,
+            AbstractBlock.Settings.create()
+                    .strength(1.1f)
+                    .requiresTool()
+                    .nonOpaque()
+                    .noCollision()
+                    .slipperiness(0.6f),
+            true
+    );
+
+    public static final Block POWERED_ICE_RAIL = registerBlock("powered_ice_rail",
+            PoweredIceRailBlock::new,
+            AbstractBlock.Settings.create()
+                    .strength(1.1f)
+                    .requiresTool()
+                    .nonOpaque()
+                    .noCollision()
+                    .slipperiness(0.6f),
+            true
     );
 
 

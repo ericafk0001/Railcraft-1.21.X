@@ -33,9 +33,10 @@ public class ModItems {
     public static void registerModItems() {
         Registry.register(Registries.ITEM_GROUP, RAILCRAFT_GROUP_KEY, RAILCRAFT_GROUP);
         ItemGroupEvents.modifyEntriesEvent(RAILCRAFT_GROUP_KEY).register(itemGroup -> {
-            itemGroup.add(ModItems.LEBRON_PHOTO);
             itemGroup.add(ModBlocks.WOODEN_RAIL.asItem());
             itemGroup.add(ModBlocks.LUBRICATED_RAIL.asItem());
+            itemGroup.add(ModBlocks.ICE_RAIL.asItem());
+            itemGroup.add(ModBlocks.POWERED_ICE_RAIL.asItem());
         });
     }
 

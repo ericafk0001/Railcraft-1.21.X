@@ -2,5 +2,7 @@
   "item.railcraft.lebron_photo": "Photo of Lebron",
   "itemGroup.railcraft": "Railcraft",
   "block.railcraft.wooden_rail": "Wooden Rail",
-  "block.railcraft.lubricated_rail": "Lubricated Rail"
+  "block.railcraft.lubricated_rail": "Lubricated Rail",
+  "block.railcraft.ice_rail": "Ice Rail",
+  "block.railcraft.powered_ice_rail": "Powered Ice Rail"
 }
