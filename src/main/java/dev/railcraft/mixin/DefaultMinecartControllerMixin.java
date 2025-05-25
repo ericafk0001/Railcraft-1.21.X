@@ -3,8 +3,10 @@ package dev.railcraft.mixin;
 import dev.railcraft.block.custom.IceRailBlock;
 import dev.railcraft.block.custom.LubricatedRailBlock;
 import dev.railcraft.block.custom.PoweredIceRailBlock;
+import net.minecraft.block.AbstractRailBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.PoweredRailBlock;
+import net.minecraft.block.enums.RailShape;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.DefaultMinecartController;
 import net.minecraft.entity.vehicle.MinecartController;
@@ -29,9 +31,16 @@ public abstract class DefaultMinecartControllerMixin extends MinecartController 
 
     @Unique
     private static final double LUBRICATED_SPEED_MULTIPLIER = 1.45;
+    @Unique
     private static final double ICE_SPEED_MULTIPLIER = 2.7;
+    @Unique
     private static final double POWERED_ICE_RAIL_MULTIPLIER = 0.2;
+    @Unique
     private static final double POWERED_ICE_RAIL_ON_MULTIPLIER = 10;
+    @Unique
+    private static final double GENTLE_PUSH = 0.02;
+    @Unique
+    private static final double MOVEMENT_THRESHOLD = 0.01;
 
 
     @Unique
@@ -131,91 +140,72 @@ public abstract class DefaultMinecartControllerMixin extends MinecartController 
     }
 
     @Inject(
-            method = "tick",
+            method = "moveOnRail",
             at = @At("TAIL")
     )
-    private void onTick(CallbackInfo ci) {
-        if (isOnIceRail() || isPoweredIceRailPowered()) {
-            Vec3d velocity = this.minecart.getVelocity();
+    private void applyPoweredIceRailLogic(ServerWorld world, CallbackInfo ci) {
+        if (!isOnPoweredIceRail()) {
+            return;
+        }
 
-            // Find the direction of motion on XZ plane
-            double motionMagnitude = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
-            if (motionMagnitude > 0.01) {
-                double boostStrength = isPoweredIceRailPowered() ? 0.12 : 0.04;
-                double boostX = (velocity.x / motionMagnitude) * boostStrength;
-                double boostZ = (velocity.z / motionMagnitude) * boostStrength;
+        BlockPos blockPos = this.minecart.getRailOrMinecartPos();
+        BlockState blockState = this.getWorld().getBlockState(blockPos);
 
-                // Apply boost
-                this.minecart.setVelocity(
-                        velocity.x + boostX,
-                        velocity.y,
-                        velocity.z + boostZ
-                );
+        // Handle powered ice rail behavior
+        if (isPoweredIceRailPowered()) {
+            applyPoweredIceRailAcceleration(blockPos, blockState);
+        } else {
+            applyPoweredIceRailDeceleration();
+        }
+    }
+
+    @Unique
+    private void applyPoweredIceRailAcceleration(BlockPos railPos, BlockState railState) {
+        Vec3d currentVelocity = this.getVelocity();
+        double currentHorizontalSpeed = currentVelocity.horizontalLength();
+
+        if (currentHorizontalSpeed > MOVEMENT_THRESHOLD) {
+            // Add acceleration in direction of movement
+            this.setVelocity(currentVelocity.add(
+                    currentVelocity.x / currentHorizontalSpeed * POWERED_ICE_RAIL_ON_MULTIPLIER,
+                    0.0,
+                    currentVelocity.z / currentHorizontalSpeed * POWERED_ICE_RAIL_ON_MULTIPLIER
+            ));
+        } else {
+            // Small push if nearly stopped
+            double newXVelocity = currentVelocity.x;
+            double newZVelocity = currentVelocity.z;
+            RailShape railShape = railState.get(((AbstractRailBlock)railState.getBlock()).getShapeProperty());
+
+            if (railShape == RailShape.EAST_WEST) {
+                if (this.minecart.willHitBlockAt(railPos.west())) {
+                    newXVelocity = GENTLE_PUSH;
+                } else if (this.minecart.willHitBlockAt(railPos.east())) {
+                    newXVelocity = -GENTLE_PUSH;
+                }
+            } else if (railShape == RailShape.NORTH_SOUTH) {
+                if (this.minecart.willHitBlockAt(railPos.north())) {
+                    newZVelocity = GENTLE_PUSH;
+                } else if (this.minecart.willHitBlockAt(railPos.south())) {
+                    newZVelocity = -GENTLE_PUSH;
+                }
             }
+
+            this.setVelocity(newXVelocity, currentVelocity.y, newZVelocity);
         }
     }
 
-
-    // not sure if this is needed, but it seems to limit the speed of the minecart
-    @Inject(
-            method = "limitSpeed",
-            at = @At("RETURN"),
-            cancellable = true
-    )
-
-    private void limitSpeed(Vec3d velocity, CallbackInfoReturnable<Vec3d> cir) {
-        if (isOnLubricatedRail()) {
-            Vec3d currentLimit = cir.getReturnValue();
-
-            double currentMaxSpeed = Math.max(Math.abs(currentLimit.x), Math.abs(currentLimit.z));
-
-            double lubricatedMaxSpeed = currentMaxSpeed * LUBRICATED_SPEED_MULTIPLIER;
-
-            cir.setReturnValue(new Vec3d(
-                    MathHelper.clamp(velocity.x, -lubricatedMaxSpeed, lubricatedMaxSpeed),
-                    velocity.y,
-                    MathHelper.clamp(velocity.z, -lubricatedMaxSpeed, lubricatedMaxSpeed)
-            ));
-        } else if (isOnIceRail()) {
-            Vec3d currentLimit = cir.getReturnValue();
-
-            double currentMaxSpeed = Math.max(Math.abs(currentLimit.x), Math.abs(currentLimit.z));
-
-            double iceMaxSpeed = currentMaxSpeed * ICE_SPEED_MULTIPLIER;
-
-            cir.setReturnValue(new Vec3d(
-                    MathHelper.clamp(velocity.x, -iceMaxSpeed, iceMaxSpeed),
-                    velocity.y,
-                    MathHelper.clamp(velocity.z, -iceMaxSpeed, iceMaxSpeed)
-            ));
-
-        } else if (isPoweredIceRailPowered()) {
-            Vec3d currentLimit = cir.getReturnValue();
-
-            double currentMaxSpeed = Math.max(Math.abs(currentLimit.x), Math.abs(currentLimit.z));
-
-            double poweredIceRailOnMaxSpeed = currentMaxSpeed * POWERED_ICE_RAIL_ON_MULTIPLIER;
-
-            cir.setReturnValue(new Vec3d(
-                    MathHelper.clamp(velocity.x, -poweredIceRailOnMaxSpeed, poweredIceRailOnMaxSpeed),
-                    velocity.y,
-                    MathHelper.clamp(velocity.z, -poweredIceRailOnMaxSpeed, poweredIceRailOnMaxSpeed)
-            ));
+    @Unique
+    private void applyPoweredIceRailDeceleration() {
+        double speed = this.getVelocity().horizontalLength();
+        if (speed < 0.03) {
+            // Stop completely if moving very slowly
+            this.setVelocity(Vec3d.ZERO);
+        } else {
+            // Reduce speed by half
+            this.setVelocity(this.getVelocity().multiply(0.5, 0.0, 0.5));
         }
-        else if (isOnPoweredIceRail()) {
-            Vec3d currentLimit = cir.getReturnValue();
-
-            double currentMaxSpeed = Math.max(Math.abs(currentLimit.x), Math.abs(currentLimit.z));
-
-            double poweredIceRailMaxSpeed = currentMaxSpeed * POWERED_ICE_RAIL_MULTIPLIER;
-
-            cir.setReturnValue(new Vec3d(
-                    MathHelper.clamp(velocity.x, -poweredIceRailMaxSpeed, poweredIceRailMaxSpeed),
-                    velocity.y,
-                    MathHelper.clamp(velocity.z, -poweredIceRailMaxSpeed, poweredIceRailMaxSpeed)
-            ));
     }
 
-
-}}
+}
 

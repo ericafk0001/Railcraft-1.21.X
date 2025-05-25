@@ -47,7 +47,7 @@ public class ModBlocks {
                     .requiresTool()
                     .nonOpaque()
                     .noCollision()
-                    .slipperiness(0.6f),
+                    .slipperiness(2f),
             true
     );
 
@@ -58,7 +58,7 @@ public class ModBlocks {
                     .requiresTool()
                     .nonOpaque()
                     .noCollision()
-                    .slipperiness(0.6f),
+                    .slipperiness(2f),
             true
     );
 
